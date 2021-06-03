@@ -1,0 +1,11 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  annotations:
+     argocd.argoproj.io/sync-wave: "-2"
+  name: okd-cluster-logging
+  namespace: openshift-marketplace
+spec:
+  sourceType: grpc
+  image: docker.io/koce/logging
+  displayName: OKD Logging

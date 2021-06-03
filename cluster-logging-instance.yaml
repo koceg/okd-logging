@@ -1,0 +1,39 @@
+apiVersion: "logging.openshift.io/v1"
+kind: "ClusterLogging"
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "1"
+  name: "instance"
+  namespace: openshift-logging
+spec:
+  managementState: "Managed"
+  logStore:
+    type: "elasticsearch"
+    retentionPolicy: 
+      application:
+        maxAge: 3d
+      infra:
+        maxAge: 3d
+      audit:
+        maxAge: 3d
+    elasticsearch:
+      nodeCount: 3
+      storage:
+        storageClassName: ceph-blk
+        size: 100Gi
+      redundancyPolicy: "MultipleRedundancy"
+      resources: 
+        limits:
+          memory: "8Gi"
+        requests:
+          cpu: "1"
+          memory: "4Gi"
+  visualization:
+    type: "kibana"
+    kibana:
+      replicas: 1
+  collection:
+    logs:
+      type: "fluentd"
+      fluentd: {}
